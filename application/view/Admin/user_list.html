@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="renderer" content="webkit">
+    <title>拼图后台管理-后台管理</title>
+    <link rel="stylesheet" href="/important/kj2/Public/Admin/css/pintuer.css">
+    <link rel="stylesheet" href="/important/kj2/Public/Admin/css/admin.css">
+</head>
+
+<body>
+<div class="admin">
+	<form method="post">
+    <div class="panel admin-panel">
+    	<div class="panel-head"><strong>用户信息</strong></div>
+    	<table class="table table-hover">
+        	<tr>
+        	  <th width="45">编号</th>
+        	  <th width="*">姓名</th>
+        	  <th width="*">登陆次数</th>
+        	  <th width="*">最后登陆时间</th>
+        	  <th width="*">最后登陆IP</th><th width="100">操作</th></tr>
+                  {foreach $list as $rows}
+                  <tr>
+                    <!--不显示超级管理员的信息-->
+                    {if $rows['is_admin']==1}
+                        {continue};
+                    {/if}
+                    {$n=1}
+                       <td>{$n++}</td>
+                       <td>{$rows['username']}</td>
+                       <td>{$rows['logincount']}</td>
+                       <!--下述把数据库里的时间戳（用它因为读写速度快）改为我们平时看的时间格式-->
+                       <td>{$rows['lastlogintime']|date_format:'%Y-%m-%d %H:%M:%S'}</td> 
+                       <td>{$rows['lastloginip']|long2ip}</td>
+                       <td><a class="button border-yellow button-little" href="index.php?c=user&p=del&pt=Admin&id={$rows['id']}" onclick="return confirm('确认删除?')">删除</a></td></tr>
+                  </tr> 
+                  {/foreach}
+            </table>       
+    </div>
+    </form>
+    <br />
+    <p class="text-right text-gray">基于<a class="text-gray" target="_blank" href="#">传智播客</a>构建</p>
+</div>
+</body>
+</html>
